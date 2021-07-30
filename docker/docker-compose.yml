@@ -1,0 +1,13 @@
+version: '2.1'
+services:
+  mysql-5.7:
+    networks:
+      - mysql-5.7
+    image: mysql:5.7
+    restart: always
+    environment:
+      - TZ=Asia/Shanghai
+#    mem_limit: 2048m
+networks:
+  mysql-5.7:
+    driver: bridge

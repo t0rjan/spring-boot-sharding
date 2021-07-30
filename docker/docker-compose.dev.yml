@@ -1,0 +1,19 @@
+version: '2.1'
+services:
+  mysql-5.7:
+#    build:
+#      context: ./mysql-5.7
+#      dockerfile: Dockerfile
+    image: mysql:5.7
+    ports:
+      - 3306:3306
+    environment:
+      - MYSQL_ROOT_PASSWORD=111111
+      - MYSQL_DATABASE=test
+#      - --character-set-server=utf8mb4
+#      - --collation-server=utf8mb4_unicode_ci
+    volumes:   # 指定数据卷
+      - ./mysql-5.7/logs:/logs
+      - ./mysql-5.7/var/lib/mysql:/var/lib/mysql
+      - ./mysql-5.7/sqls:/sqls
+      - ./mysql-5.7/etc/mysql:/etc/mysql

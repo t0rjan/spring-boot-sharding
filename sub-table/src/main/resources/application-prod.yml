@@ -1,0 +1,56 @@
+logging:
+  file: app_logs/mylogfile.log
+  level:
+    root: INFO
+    com:
+      wzb:
+        mapper: INFO
+        controller: DEBUG
+        service:
+          impl: DEBUG
+
+  pattern:
+    console: '%d{yyyy-MMM-dd HH:mm:ss.SSS} %-5level [%thread] %logger{15} - %msg%n'
+
+mybatis:
+  #  mapper-locations: classpath:mapper/test1/*.xml
+  type-aliases-package: com.wzb.entity
+spring:
+  datasource:
+    test2:
+      driver-class-name: com.mysql.jdbc.Driver
+      jdbc-url: jdbc:mysql://localhost:3306/test?useUnicode=true&autoReconnect=true&useSSL=false
+      password: 111111
+      username: root
+  shardingsphere:
+    datasource:
+      master:
+        driver-class-name: com.mysql.jdbc.Driver
+        password: 111111
+        type: com.alibaba.druid.pool.DruidDataSource
+        url: jdbc:mysql://localhost:3306/test?useUnicode=true&autoReconnect=true&useSSL=false
+        username: root
+      names: master
+    props:
+      sql:
+        show: false
+    sharding:
+      tables:
+        t_order_charge_detail:
+          actual-data-nodes: master.t_order_charge_detail_$->{0..300}
+          key-generator:
+            column: id
+            type: SNOWFLAKE
+          table-strategy:
+            inline:
+              algorithm-expression: t_order_charge_detail_$->{order_id % 300}
+              sharding-column: order_id
+        t_order_detail:
+          actual-data-nodes: master.t_order_detail_$->{0..300}
+          key-generator:
+            column: id
+            type: SNOWFLAKE
+          table-strategy:
+            inline:
+              algorithm-expression: t_order_detail_$->{order_id % 300}
+              sharding-column: order_id

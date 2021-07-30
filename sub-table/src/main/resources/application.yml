@@ -1,0 +1,9 @@
+spring:
+  profiles:
+    active: @profiles.active@
+migrate:
+  table:
+    t_order_charge_detail: migrateOrderChargeDetail
+    t_order_detail: migrateOrderDetail
+server:
+  port: 8088
